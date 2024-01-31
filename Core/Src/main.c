@@ -63,11 +63,11 @@ void blink(){
 /*	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // инверсия вывода PC13
 	HAL_Delay(500);*/
 	static uint8_t x;
-	OLED_DrawRectangleFill(1, 53, 123, 63, 0); //clear previous rect
-	OLED_DrawRectangleFill(1, 53, x, 63, 1); //draw new rect
-	x++;
+	OLED_DrawRectangleFill(1, 56, 123, 63, 0); //clear previous rect
+	OLED_DrawRectangleFill(1, 56, x, 63, 1); //draw new rect
+	x+=2;
 	if(x>123)x=1;
-	OLED_UpdateScreen();
+	OLED_UpdateOnePage(7);
 
 
 
@@ -204,7 +204,7 @@ static void MX_I2C1_Init(void)
 
   /* USER CODE END I2C1_Init 1 */
   hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.ClockSpeed = 400000;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
