@@ -22,6 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "OLED.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,6 +42,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c1;
 
 /* USER CODE BEGIN PV */
 
@@ -48,6 +51,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_I2C1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -56,8 +60,17 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN 0 */
 
 void blink(){
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // инверсия вывода PC13
-	HAL_Delay(500);
+/*	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // инверсия вывода PC13
+	HAL_Delay(500);*/
+	static uint8_t x;
+	OLED_DrawRectangleFill(1, 53, 123, 63, 0); //clear previous rect
+	OLED_DrawRectangleFill(1, 53, x, 63, 1); //draw new rect
+	x++;
+	if(x>123)x=1;
+	OLED_UpdateScreen();
+
+
+
 }
 
 /* USER CODE END 0 */
@@ -90,7 +103,40 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+
+
+  HAL_Delay(100);
+  /* Init OLED */
+  OLED_Init(&hi2c1);
+
+  /* Text */
+  FontSet(Segoe_UI_Rus_12);
+  OLED_DrawStr("BN-Bylecnhbz", 1, 1, 1);
+  FontSet(Segoe_UI_Rus_10);
+  OLED_DrawStr("BN-Bylecnhbz", 1, 18, 1);
+  FontSet(Segoe_UI_Rus_8);
+  OLED_DrawStr("BN-Bylecnhbz", 1 , 32, 1);
+
+
+
+/*   Icon
+  OLED_DrawXBM(100, 10, icon_clock);*/
+
+/*   Figures
+  OLED_DrawRectangle(11, 10, 88, 35);
+  OLED_DrawCircle(10, 60, 3);
+  OLED_DrawCircleFill(18, 60, 3);
+  OLED_DrawCircle(26, 60, 3);
+  OLED_DrawTriangle(40, 63, 45, 53, 50, 63);
+  OLED_DrawTriangleFill(47, 53, 52, 63, 57, 53);*/
+
+  /* Update screen */
+  OLED_UpdateScreen();
+
+
+
 
   /* USER CODE END 2 */
 
@@ -143,6 +189,40 @@ void SystemClock_Config(void)
 }
 
 /**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -156,6 +236,7 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
