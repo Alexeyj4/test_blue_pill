@@ -75,8 +75,8 @@ all: main-build
 main-build: test_blue_pill.elf secondary-outputs
 
 # Tool invocations
-test_blue_pill.elf test_blue_pill.map: $(OBJS) $(USER_OBJS) C:\Users\ASharonov\STM32CubeIDE\workspace_1.13.0\test_blue_pill\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "test_blue_pill.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\ASharonov\STM32CubeIDE\workspace_1.13.0\test_blue_pill\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test_blue_pill.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+test_blue_pill.elf test_blue_pill.map: $(OBJS) $(USER_OBJS) C:\Users\user\STM32CubeIDE\workspace_1.13.0\test_blue_pill\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "test_blue_pill.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\user\STM32CubeIDE\workspace_1.13.0\test_blue_pill\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test_blue_pill.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
