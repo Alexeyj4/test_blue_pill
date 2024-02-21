@@ -22,8 +22,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "OLED.h"
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,12 +40,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c1;
-I2C_HandleTypeDef hi2c2;
-
 TIM_HandleTypeDef htim2;
-
-UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 
@@ -56,33 +49,13 @@ UART_HandleTypeDef huart1;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_I2C1_Init(void);
 static void MX_TIM2_Init(void);
-static void MX_USART1_UART_Init(void);
-static void MX_I2C2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-void blink(){
-/*	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // инверсия вывода PC13
-	HAL_Delay(500);*/
-	OLED_Clear(0);
-	//static uint8_t x;
-	//OLED_DrawRectangleFill(1, 56, 123, 63, 0); //clear previous rect
-	//OLED_DrawRectangleFill(1, 56, x, 63, 1); //draw new rect
-	//x+=2;
-	//if(x>123)x=1;
-	//OLED_UpdateOnePage(7);
-	OLED_DrawNum((int16_t)__HAL_TIM_GET_COUNTER(&htim2)/4, 1, 25, 1);
-	OLED_UpdateScreen();
-
-
-
-}
 
 /* USER CODE END 0 */
 
@@ -114,45 +87,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_I2C1_Init();
   MX_TIM2_Init();
-  MX_USART1_UART_Init();
-  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-
-
-  HAL_Delay(100);
-  /* Init OLED */
-  OLED_Init(&hi2c1);
-
-  /* Text */
-  FontSet(Segoe_UI_Rus_12);
-  OLED_DrawStr("BN-Bylecnhbz", 1, 1, 1);
-  FontSet(Segoe_UI_Rus_10);
-  OLED_DrawStr("BN-Bylecnhbz", 1, 18, 1);
-  FontSet(Segoe_UI_Rus_8);
-  OLED_DrawStr("BN-Bylecnhbz", 1 , 32, 1);
-  FontSet(Segoe_UI_Rus_12);
-
-
-/*   Icon
-  OLED_DrawXBM(100, 10, icon_clock);*/
-
-/*   Figures
-  OLED_DrawRectangle(11, 10, 88, 35);
-  OLED_DrawCircle(10, 60, 3);
-  OLED_DrawCircleFill(18, 60, 3);
-  OLED_DrawCircle(26, 60, 3);
-  OLED_DrawTriangle(40, 63, 45, 53, 50, 63);
-  OLED_DrawTriangleFill(47, 53, 52, 63, 57, 53);*/
-
-  /* Update screen */
-  OLED_UpdateScreen();
-
-  HAL_UART_Transmit(&huart1, (uint8_t*)"Hello World\n", 12, 1);
-
-  HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
-
 
   /* USER CODE END 2 */
 
@@ -160,7 +96,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  blink();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -205,74 +141,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-}
-
-/**
-  * @brief I2C1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_I2C1_Init(void)
-{
-
-  /* USER CODE BEGIN I2C1_Init 0 */
-
-  /* USER CODE END I2C1_Init 0 */
-
-  /* USER CODE BEGIN I2C1_Init 1 */
-
-  /* USER CODE END I2C1_Init 1 */
-  hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 400000;
-  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c1.Init.OwnAddress1 = 0;
-  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c1.Init.OwnAddress2 = 0;
-  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN I2C1_Init 2 */
-
-  /* USER CODE END I2C1_Init 2 */
-
-}
-
-/**
-  * @brief I2C2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_I2C2_Init(void)
-{
-
-  /* USER CODE BEGIN I2C2_Init 0 */
-
-  /* USER CODE END I2C2_Init 0 */
-
-  /* USER CODE BEGIN I2C2_Init 1 */
-
-  /* USER CODE END I2C2_Init 1 */
-  hi2c2.Instance = I2C2;
-  hi2c2.Init.ClockSpeed = 100000;
-  hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c2.Init.OwnAddress1 = 0;
-  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c2.Init.OwnAddress2 = 0;
-  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN I2C2_Init 2 */
-
-  /* USER CODE END I2C2_Init 2 */
-
 }
 
 /**
@@ -325,39 +193,6 @@ static void MX_TIM2_Init(void)
 }
 
 /**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART1_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART1_Init 0 */
-
-  /* USER CODE END USART1_Init 0 */
-
-  /* USER CODE BEGIN USART1_Init 1 */
-
-  /* USER CODE END USART1_Init 1 */
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART1_Init 2 */
-
-  /* USER CODE END USART1_Init 2 */
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -372,7 +207,6 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LED_built_in_GPIO_Port, LED_built_in_Pin, GPIO_PIN_RESET);
