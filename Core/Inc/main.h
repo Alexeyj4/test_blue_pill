@@ -65,6 +65,10 @@ void Error_Handler(void);
 #define ENC_B_GPIO_Port GPIOA
 #define ENC_BTN_Pin GPIO_PIN_2
 #define ENC_BTN_GPIO_Port GPIOA
+#define LCD_DO_Pin GPIO_PIN_0
+#define LCD_DO_GPIO_Port GPIOB
+#define touch_IRQ_Pin GPIO_PIN_8
+#define touch_IRQ_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
