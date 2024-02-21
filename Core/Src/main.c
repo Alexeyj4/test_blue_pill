@@ -31,6 +31,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define LED_PIN GPIO_PIN_13
+#define LED_TOGGLE_DELAY 1000
 
 /* USER CODE END PD */
 
@@ -51,7 +53,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
-
+void loop();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -96,7 +98,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+	  loop();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -229,7 +231,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void loop() {
+	HAL_GPIO_TogglePin(GPIOC, LED_PIN); // мигание светодиодом
+	HAL_Delay(LED_TOGGLE_DELAY);
 
+}
 /* USER CODE END 4 */
 
 /**
