@@ -1,15 +1,17 @@
-T_IRQ		PA8
-T_DO		MOSI2
-T_DIN		MISO2
-T_CS		
-T_CLK		SCK2
+ILI9341		MPU
 
-SDO(MOSI)	MISO1
-LED		+3.3
-SCK		SCK1
-SDI(MOSI)		MISO1
-DC		PB0
-RESET		GND
-CS		
-GND		GND
-VCC		+3.3
+T_IRQ		PA15	бел
+T_DO		MOSI1	перемычка
+T_DIN		MISO1	перемычка
+T_CS		PB3	син
+T_CLK		SCK1	перемычка
+
+SDO(MISO)	MOSI1	жёлт	
+LED		+3.3	перемычка
+SCK		SCK1	кор
+SDI(MOSI)		MISO1	зел
+DC		PB4	оранж
+RESET		PB8	бел
+CS		PB5	желт
+GND		GND	чёрн
+VCC		+3.3	красн

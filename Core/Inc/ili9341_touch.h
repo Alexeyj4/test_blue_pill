@@ -10,10 +10,10 @@
 #define ILI9341_TOUCH_SPI_PORT hspi1
 extern SPI_HandleTypeDef ILI9341_TOUCH_SPI_PORT;
 
-#define ILI9341_TOUCH_IRQ_Pin       GPIO_PIN_4 // Arduino D5
-#define ILI9341_TOUCH_IRQ_GPIO_Port GPIOB
-#define ILI9341_TOUCH_CS_Pin        GPIO_PIN_10 // Arduino D2
-#define ILI9341_TOUCH_CS_GPIO_Port  GPIOA
+#define ILI9341_TOUCH_IRQ_Pin       GPIO_PIN_15
+#define ILI9341_TOUCH_IRQ_GPIO_Port GPIOA
+#define ILI9341_TOUCH_CS_Pin        GPIO_PIN_3
+#define ILI9341_TOUCH_CS_GPIO_Port  GPIOB
 
 // change depending on screen orientation
 #define ILI9341_TOUCH_SCALE_X 240

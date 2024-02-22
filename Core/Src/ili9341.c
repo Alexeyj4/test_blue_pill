@@ -1,5 +1,5 @@
 /* vim: set ai et ts=4 sw=4: */
-#include "stm32f4xx_hal.h"
+#include "stm32f1xx_hal.h"
 #include "ili9341.h"
 
 static void ILI9341_Select() {
