@@ -33,8 +33,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LED_PIN GPIO_PIN_13
-#define LED_PIN_PORT GPIOC
+#define BUILTIN_LED_PIN GPIO_PIN_13
+#define BUILTIN_LED_PIN_PORT GPIOC
+#define LCD_LED_PIN GPIO_PIN_6
+#define LCD_LED_PIN_PORT GPIOB
 
 /* USER CODE END PD */
 
@@ -67,7 +69,8 @@ void loop() {
 	ILI9341_TouchUnselect();
 	HAL_GPIO_WritePin(ILI9341_CS_GPIO_Port, ILI9341_CS_Pin, GPIO_PIN_RESET);
 	ILI9341_Init();
-	HAL_GPIO_TogglePin(LED_PIN_PORT, LED_PIN);
+	HAL_GPIO_TogglePin(BUILTIN_LED_PIN_PORT, BUILTIN_LED_PIN);
+	HAL_GPIO_TogglePin(LCD_LED_PIN_PORT, LCD_LED_PIN);
 	ILI9341_FillRectangle(5, 5, 50, 50, ILI9341_GREEN);
 	ILI9341_FillScreen(ILI9341_RED);
 	HAL_Delay(100);
@@ -268,7 +271,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LED_built_in_GPIO_Port, LED_built_in_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, TOUCH_CS_Pin|LCD_DC_Pin|LCD_CS_Pin|LCD_RESET_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, TOUCH_CS_Pin|LCD_DC_Pin|LCD_CS_Pin|GPIO_PIN_6
+                          |LCD_RESET_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : LED_built_in_Pin */
   GPIO_InitStruct.Pin = LED_built_in_Pin;
@@ -289,8 +293,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(TOUCH_IRQ_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : TOUCH_CS_Pin LCD_DC_Pin LCD_CS_Pin LCD_RESET_Pin */
-  GPIO_InitStruct.Pin = TOUCH_CS_Pin|LCD_DC_Pin|LCD_CS_Pin|LCD_RESET_Pin;
+  /*Configure GPIO pins : TOUCH_CS_Pin LCD_DC_Pin LCD_CS_Pin PB6
+                           LCD_RESET_Pin */
+  GPIO_InitStruct.Pin = TOUCH_CS_Pin|LCD_DC_Pin|LCD_CS_Pin|GPIO_PIN_6
+                          |LCD_RESET_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
